@@ -44,7 +44,7 @@ public class FileTreeImpl implements FileTree {
             StringBuilder indentSB = new StringBuilder(indent);
             boolean isLast = file.equals(files.get(files.size() - 1));
             indentSB.append(isLast ? "   " : "│  ");
-            treeSB.append("\n").append(indent).append(isLast ? "└─ " : "├─ ");
+            treeSB.append(System.getProperty("line.separator")).append(indent).append(isLast ? "└─ " : "├─ ");
             if (file.isFile()) {
                 size += file.length();
                 treeSB.append(printFileNameSize(file));
