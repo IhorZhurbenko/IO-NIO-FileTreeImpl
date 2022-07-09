@@ -37,20 +37,13 @@ public class FileTreeImpl implements FileTree {
 
     private TreeResult buildTree(File directory, String indent) {
         List<File> files = Arrays.asList(Objects.requireNonNull(directory.listFiles()));
-//        files.sort((File a, File b) -> {
-//            int result = Boolean.compare(a.isFile(), b.isFile());
-//            if (result == 0) {
-//                result = a.getName().compareToIgnoreCase(b.getName());
-//            }
-//            return result;
-//        });
-        files.sort((File a, File b) -> Boolean.compare(a.isFile(), b.isFile()));
-        files.sort((File a, File b) -> Boolean.compare(a.getName().endsWith(b.getName()), b.getName().endsWith(a.getName())));
-                /* if (result == 0) {
+        files.sort((File a, File b) -> {
+            int result = Boolean.compare(a.isFile(), b.isFile());
+            if (result == 0) {
                 result = a.getName().compareToIgnoreCase(b.getName());
-            }*/
-
-
+            }
+            return result;
+        });
         long size = 0;
         StringBuilder treeSB = new StringBuilder();
         for (File file : files) {
