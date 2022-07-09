@@ -8,6 +8,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class FileTreeImpl implements FileTree {
+
+    static class TreeResult {
+        private final String tree;
+        private final long size;
+
+        public TreeResult(String tree, long size) {
+            this.tree = tree;
+            this.size = size;
+        }
+    }
+
     @Override
     public Optional<String> tree(Path path) {
         if (path == null || !path.toFile().exists()) {
@@ -17,7 +28,7 @@ public class FileTreeImpl implements FileTree {
         if (file.isFile()) {
             return Optional.of(printFileNameSize(file));
         }
-        return Optional.of(buildTree(file, "").getTree());
+        return Optional.of(buildTree(file, "").tree);
     }
 
     private String printFileNameSize(File file) {
@@ -40,8 +51,8 @@ public class FileTreeImpl implements FileTree {
             }
             if (file.isDirectory()) {
                 TreeResult recursionTree = buildTree(file, indentSB.toString());
-                size += recursionTree.getSize();
-                treeSB.append(recursionTree.getTree());
+                size += recursionTree.size;
+                treeSB.append(recursionTree.tree);
             }
         }
         return new TreeResult(directory.getName() + " " + size + " bytes" + treeSB, size);
